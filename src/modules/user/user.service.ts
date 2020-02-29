@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './repositories/user.repository';
 import { UserEntity } from './entities/user.entity';
+import { IUserRegister } from '../auth/interfaces/user-register.interface';
 
 @Injectable()
 export class UserService {
@@ -28,7 +29,7 @@ export class UserService {
     }
   }
 
-  async create(user): Promise<UserEntity> {
+  async create(user: IUserRegister): Promise<UserEntity> {
     try {
       return await this.userRepository.save(user);
     } catch (e) {
@@ -48,6 +49,14 @@ export class UserService {
     try {
       const user = await this.get(id);
       await user.remove();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async findOneByEmail(email: string): Promise<UserEntity> {
+    try {
+      return await this.userRepository.findOne({email});
     } catch (e) {
       throw e;
     }

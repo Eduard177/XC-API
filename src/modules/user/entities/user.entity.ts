@@ -9,13 +9,13 @@ export class UserEntity extends BaseEntity {
 @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
   email: string;
 
-@Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+@Column({ type: 'varchar', length: 255, nullable: false })
   fullName: string;
 
-@Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+@Column({ type: 'varchar', length: 255, nullable: false })
   office: string;
 
-@Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+@Column({ type: 'varchar', length: 255, nullable: false })
   position: string;
 
 @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
@@ -24,7 +24,7 @@ export class UserEntity extends BaseEntity {
 @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
   cellphone: string;
 
-@Column({ type: 'varchar', length: 255, nullable: false, unique: true })
+@Column({ type: 'varchar', length: 255 })
   imageUrl: string;
 
 @Column({ type: 'varchar', length: 255, nullable: false })
