@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { RefundableInvoiceReportEntity } from '../../reports/entities/refundableInvoiceReport.entity';
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -30,6 +31,9 @@ export class UserEntity extends BaseEntity {
 @Column({ type: 'varchar', length: 255, nullable: false })
   password: string;
 
-  @Column({ type: 'varchar', length: 25, nullable: false })
-  role: string;
+@Column({ type: 'varchar', length: 25, nullable: false })
+role: string;
+
+@OneToMany(type => RefundableInvoiceReportEntity, refundableInvoice => refundableInvoice.user)
+refundableInvoiceReports: RefundableInvoiceReportEntity[];
 }
