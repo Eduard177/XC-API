@@ -1,13 +1,16 @@
 {
   "type": "postgres",
-  "username": "postgres",
-  "password": "",
-  "host": "localhost",
+  "username": "xcadmin@xc-reports-db",
+  "password": "patrol23*",
+  "host": "xc-reports-db.postgres.database.azure.com",
   "port": 5432,
-  "database": "xpertcode",
+  "database": "xc-reports-db",
   "entities": ["src/**/**/*.entity{.ts,.js}"],
   "migrations": ["src/database/migrations/*{.ts,.js}"],
   "cli": {
     "migrationsDir": "src/database/migrations"
+  },
+  "extra": {
+    "ssl": true
   }
 }

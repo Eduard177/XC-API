@@ -6,6 +6,7 @@ import { IRefundableInvoiceReport } from './interfaces/RefundableInvoiceReport.i
 import { UserEntity } from '../user/entities/user.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { MinorExpensesReportRepository } from './repositories/minorExpensesReport.repository';
+import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 
 @Injectable()
 export class ReportsService {
@@ -79,6 +80,16 @@ export class ReportsService {
   async deleteRefundableInvoiceReport(reportId: number): Promise<DeleteResult> {
     try {
       return await this.refundableInvoiceReportRepository.delete(reportId);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getAllMinorExpensesReports(): Promise<MinorExpensesReportEntity[]> {
+    try {
+      let reports: MinorExpensesReportEntity[];
+      reports = await this.minorExpensesReportRepository.find();
+      return reports;
     } catch (e) {
       throw e;
     }
