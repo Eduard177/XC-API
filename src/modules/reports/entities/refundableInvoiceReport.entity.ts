@@ -53,5 +53,5 @@ export class RefundableInvoiceReportEntity extends BaseEntity {
   hasTip: boolean;
 
   @Column({type: 'varchar', default: 'false'})
-  hasItibis: boolean;
+  hasItbis: boolean;
 }

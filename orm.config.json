@@ -3,7 +3,7 @@
   "username": "postgres",
   "password": "",
   "host": "localhost",
-  "port": 5433,
+  "port": 5432,
   "database": "xpertcode",
   "entities": ["src/**/**/*.entity{.ts,.js}"],
   "migrations": ["src/database/migrations/*{.ts,.js}"],
