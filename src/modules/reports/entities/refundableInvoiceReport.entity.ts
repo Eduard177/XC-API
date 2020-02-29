@@ -7,19 +7,19 @@ export class RefundableInvoiceReportEntity extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({type: 'varchar', length: 255, default: 'N/A'})
+  @Column({type: 'varchar', length: 255, default: 'N/A', nullable: true})
   type: string;
 
   @Column({type: 'varchar', length: 255})
   rnc: string;
 
-  @Column({type: 'varchar', length: 255})
+  @Column({type: 'varchar', length: 255, unique: true})
   ncf: string;
 
-  @Column({type: 'date'})
+  @Column({type: 'date', nullable: false})
   invoiceDate: Date;
 
-  @Column({type: 'varchar', length: 255})
+  @Column({type: 'varchar', length: 255, nullable: true})
   details: string;
 
   @Column({type: 'varchar', length: 255})
@@ -31,27 +31,27 @@ export class RefundableInvoiceReportEntity extends BaseEntity {
   @Column({type: 'varchar', length: 255})
   paymentMethod: string;
 
-  @Column({type: 'decimal', length: 19, precision: 2})
+  @Column({type: 'decimal', precision: 19, scale: 2, nullable: false})
   subTotal: number;
 
-  @Column({type: 'decimal', length: 19, precision: 2})
+  @Column({type: 'decimal', precision: 19, scale: 2})
   itbis: number;
 
-  @Column({type: 'decimal', length: 19, precision: 2})
+  @Column({type: 'decimal', precision: 19, scale: 2})
   tip: number;
 
-  @Column({type: 'decimal', length: 19, precision: 2})
+  @Column({type: 'decimal', precision: 19, scale: 2, nullable: false})
   total: number;
 
-  @ManyToOne(type => UserEntity, user => user.refundableInvoiceReports)
+  @ManyToOne(type => UserEntity, user => user.refundableInvoiceReports, {nullable: false})
   user: UserEntity;
 
   @Column({type: 'varchar', length: 255, default: 'Pendiente'})
   status: string;
 
-  @Column({type: 'char', default: 'false'})
-  hasTip: string;
+  @Column({type: 'varchar', default: 'false'})
+  hasTip: boolean;
 
-  @Column({type: 'char', default: 'false'})
-  hasItibis: string;
+  @Column({type: 'varchar', default: 'false'})
+  hasItibis: boolean;
 }
