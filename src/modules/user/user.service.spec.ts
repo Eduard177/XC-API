@@ -1,19 +1,21 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { UserEntity } from './entities/user.entity';
+import { UserRepository } from './repositories/user.repository';
 
 describe('UserService', () => {
   let service: UserService ;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
      providers: [
+       UserService,
      {
-       provide: UserService,
+       provide: UserRepository,
        useFactory: () => ({
-         getAll: jest.fn(() => []),
-         get: jest.fn(() => new UserEntity()),
-         create: jest.fn(() => true ),
-         deleteByID: jest.fn( () => true),
+         find: jest.fn(() => []),
+         findOne: jest.fn(() => new UserEntity()),
+         save: jest.fn(() => true ),
+         remove: jest.fn( () => true),
        }),
      },
      ],
@@ -35,7 +37,10 @@ describe('UserService', () => {
 
   describe('get', () => {
     it('should return an user', async () => {
-      const user: UserEntity = await service.get(1);
+      let user: UserEntity = await service.get(1);
+      expect(user).not.toBeNull();
+
+      user = await service.findOneByEmail('test@gmail.com');
       expect(user).not.toBeNull();
     });
   });
@@ -44,19 +49,12 @@ describe('UserService', () => {
     it('should save a user', async () => {
       const user: UserEntity = new UserEntity();
       user.id = 1;
-      user.documentNumber = '1';
+      user.companyCode = '1';
       user.email = '1';
       user.password = '1';
 
       const isCreated = await service.create(user);
       expect(isCreated).toBeTruthy();
-    });
-  });
-  describe('deleteByID', () => {
-    it('should delete an user by ID', async () => {
-      const isDeleted = await service.deleteByID(1);
-
-      expect(isDeleted).toBeTruthy();
     });
   });
 });

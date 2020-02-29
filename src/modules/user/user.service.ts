@@ -13,7 +13,6 @@ export class UserService {
   ) {}
 
   async get(id: number): Promise<UserEntity> {
-    try {
       if (!id) {
         throw new BadRequestException('id must be sent');
       }
@@ -22,43 +21,23 @@ export class UserService {
       if (!user) {
         throw new NotFoundException();
       }
-
       return user;
-    } catch (e) {
-      throw e;
-    }
   }
 
   async create(user: IUserRegister): Promise<UserEntity> {
-    try {
       return await this.userRepository.save(user);
-    } catch (e) {
-      throw e;
-    }
   }
 
   async getAll(): Promise<UserEntity[]> {
-    try {
       return await this.userRepository.find();
-    } catch (e) {
-      throw e;
-    }
   }
 
   async deleteByID(id: number): Promise<void> {
-    try {
       const user = await this.get(id);
       await user.remove();
-    } catch (e) {
-      throw e;
-    }
   }
 
   async findOneByEmail(email: string): Promise<UserEntity> {
-    try {
       return await this.userRepository.findOne({email});
-    } catch (e) {
-      throw e;
-    }
   }
 }
