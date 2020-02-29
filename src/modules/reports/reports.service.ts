@@ -5,6 +5,7 @@ import { RefundableInvoiceReportEntity } from './entities/refundableInvoiceRepor
 import { IRefundableInvoiceReport } from './interfaces/RefundableInvoiceReport.interface';
 import { UserEntity } from '../user/entities/user.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
+import { MinorExpensesReportRepository } from './repositories/minorExpensesReport.repository';
 
 @Injectable()
 export class ReportsService {
@@ -12,6 +13,8 @@ export class ReportsService {
   constructor(
     @InjectRepository(RefundableInvoiceReportRepository)
     private readonly refundableInvoiceReportRepository: RefundableInvoiceReportRepository,
+    @InjectRepository(MinorExpensesReportRepository)
+    private readonly minorExpensesReportRepository: MinorExpensesReportRepository,
   ) {}
 
   async getAllRefundableInvoiceReports(): Promise<RefundableInvoiceReportEntity[]> {
