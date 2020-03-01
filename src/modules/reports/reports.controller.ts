@@ -29,11 +29,6 @@ export class ReportsController {
     return await this.reportsService.createRefundableInvoiceReport(refundableReport);
   }
 
-  @Put('refundable')
-  async updateRefundableInvoiceReport(@Body() refundableReport: IRefundableInvoiceReport) {
-    return await this.reportsService.createRefundableInvoiceReport(refundableReport);
-  }
-
   @Delete('refundable/:id')
   async deleteRefundableInvoiceReport(@Param() id: number) {
     return await this.reportsService.deleteRefundableInvoiceReport(id);
@@ -55,11 +50,6 @@ export class ReportsController {
 
   @Post('minor')
   async createMinorExpensesReport(@Body() minorReport: IMinorExpensesReport) {
-    return await this.reportsService.createMinorExpensesReport(minorReport);
-  }
-
-  @Put('minor')
-  async updateMinorExpensesReport(@Body() minorReport: IMinorExpensesReport) {
     return await this.reportsService.createMinorExpensesReport(minorReport);
   }
 
