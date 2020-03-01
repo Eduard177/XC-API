@@ -21,7 +21,7 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/*/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         extra: {
-          ssl: true,
+          // ssl: true,
         },
       } as ConnectionOptions;
     },
