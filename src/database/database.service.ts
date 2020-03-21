@@ -11,7 +11,7 @@ export const databaseProviders = [
     inject: [ConfigService],
     async useFactory(config: ConfigService) {
       return {
-        type: 'postgres' as 'postgres',
+        type: 'postgres',
         host: config.get(Configuration.DB_HOST),
         username: config.get(Configuration.DB_USER),
         // tslint:disable-next-line:radix
@@ -21,7 +21,7 @@ export const databaseProviders = [
         entities: [__dirname + '/../**/*/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         extra: {
-          // ssl: true,
+          ssl: true,
         },
       } as ConnectionOptions;
     },

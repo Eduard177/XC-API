@@ -1,13 +1,15 @@
 {
   "type": "postgres",
-  "username": "xcadmin@xc-reports-db",
-  "password": "patrol23*",
-  "host": "xc-reports-db.postgres.database.azure.com",
+  "username": "qwotfnpwbkkcpf",
+  "password": "5070e1ca30f04467079a3fc010199cd8298205ef7b0a83151ac9175c5b66145e",
+  "host": "ec2-3-229-210-93.compute-1.amazonaws.com",
   "port": 5432,
-  "database": "xc-reports-db",
+  "database": "dcp0bmddfp9m3g",
   "entities": ["src/**/**/*.entity{.ts,.js}"],
   "migrations": ["src/database/migrations/*{.ts,.js}"],
   "cli": {
     "migrationsDir": "src/database/migrations"
-  }
+  },
+  "ssl": true
 }
+
