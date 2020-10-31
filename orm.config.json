@@ -1,15 +1,13 @@
 {
   "type": "postgres",
-  "username": "qwotfnpwbkkcpf",
-  "password": "5070e1ca30f04467079a3fc010199cd8298205ef7b0a83151ac9175c5b66145e",
-  "host": "ec2-3-229-210-93.compute-1.amazonaws.com",
-  "port": 5432,
-  "database": "dcp0bmddfp9m3g",
+  "username": "postgres",
+  "password": "",
+  "host": "localhost",
+  "port": 5433,
+  "database": "xpertcode",
   "entities": ["src/**/**/*.entity{.ts,.js}"],
   "migrations": ["src/database/migrations/*{.ts,.js}"],
   "cli": {
     "migrationsDir": "src/database/migrations"
-  },
-  "ssl": true
+  }
 }
-
