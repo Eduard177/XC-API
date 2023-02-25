@@ -1,23 +1,21 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { RefundableInvoiceReportRepository } from './repositories/refundableInvoiceReport.repository';
 import { RefundableInvoiceReportEntity } from './entities/refundableInvoiceReport.entity';
 import { IRefundableInvoiceReport } from './interfaces/RefundableInvoiceReport.interface';
 import { UserEntity } from '../user/entities/user.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
-import { MinorExpensesReportRepository } from './repositories/minorExpensesReport.repository';
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 import { IMinorExpensesReport } from './interfaces/MinorExpensesReport.interface';
-import { getRepository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReportsService {
 
   constructor(
-    @InjectRepository(RefundableInvoiceReportRepository)
-    private readonly refundableInvoiceReportRepository: RefundableInvoiceReportRepository,
-    @InjectRepository(MinorExpensesReportRepository)
-    private readonly minorExpensesReportRepository: MinorExpensesReportRepository,
+    @InjectRepository(RefundableInvoiceReportEntity)
+    private readonly refundableInvoiceReportRepository: Repository<RefundableInvoiceReportEntity>,
+    @InjectRepository(MinorExpensesReportEntity)
+    private readonly minorExpensesReportRepository: Repository<MinorExpensesReportEntity>,
   ) {}
 
   async getAllRefundableInvoiceReports(): Promise<RefundableInvoiceReportEntity[]> {
@@ -36,7 +34,13 @@ export class ReportsService {
         throw new BadRequestException('AN ID MUST BE SENT');
       }
       let refundableInvoiceReport: RefundableInvoiceReportEntity;
-      refundableInvoiceReport = await this.refundableInvoiceReportRepository.findOne(id);
+
+      refundableInvoiceReport = await this.refundableInvoiceReportRepository.findOne(
+        {
+          where:{
+            id
+          }
+        });
 
       if (!refundableInvoiceReport) {
         throw new NotFoundException('REPORT NOT FOUND');
@@ -101,7 +105,12 @@ export class ReportsService {
         throw new BadRequestException('AN ID MUST BE SENT');
       }
       let minorReport: MinorExpensesReportEntity;
-      minorReport = await this.minorExpensesReportRepository.findOne(id);
+      minorReport = await this.minorExpensesReportRepository.findOne(
+        {
+          where:{
+            id
+          }
+        });
 
       if (!minorReport) {
         throw new NotFoundException('REPORT NOT FOUND');

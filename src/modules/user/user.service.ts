@@ -1,22 +1,27 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRepository } from './repositories/user.repository';
 import { UserEntity } from './entities/user.entity';
 import { IUserRegister } from '../auth/interfaces/user-register.interface';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
 
   constructor(
-    @InjectRepository(UserRepository)
-    private readonly userRepository: UserRepository,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async get(id: number): Promise<UserEntity> {
       if (!id) {
         throw new BadRequestException('id must be sent');
       }
-      const user = await this.userRepository.findOne(id);
+      const user = await this.userRepository.findOne(
+        {
+          where:{
+            id
+          }
+        });
 
       if (!user) {
         throw new NotFoundException();
@@ -38,6 +43,11 @@ export class UserService {
   }
 
   async findOneByEmail(email: string): Promise<UserEntity> {
-      return await this.userRepository.findOne({email});
+      return await this.userRepository.findOne(
+        {
+          where:{
+            email
+          }
+        });
   }
 }

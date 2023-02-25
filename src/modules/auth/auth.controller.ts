@@ -18,8 +18,6 @@ export class AuthController {
   }
 
   @Post('/register')
-  @UseGuards(AuthGuard('jwt'))
-  @UseGuards(AdminGuard)
   async userRegister(@Body() payload: IUserRegister) {
     return this.authService.userRegister(payload);
   }
