@@ -117,6 +117,6 @@ export class ReportsController {
 
   @Get('count')
   async getReportCount(@Query() payload: any): Promise<object> {
-    return await this.reportsService.getReportCount(payload.UserId);
+    return await this.reportsService.getReportCount(payload.userId);
   }
 }
