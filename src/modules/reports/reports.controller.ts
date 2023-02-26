@@ -23,11 +23,17 @@ export class ReportsController {
 
   @Get('refundable')
   async findAllRefundableReports(
-    @Body('userId') userId: number,
+    @Query('userId') userId: number,
+    @Query('start') start: Date,
+    @Query('end') end: Date,
+    @Query('status') status: string,
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (userId) {
       return await this.reportsService.getRefundableInvoiceReportsByUserId(
         userId,
+        start,
+        end,
+        status,
       );
     } else {
       return await this.reportsService.getAllRefundableInvoiceReports();
@@ -67,10 +73,18 @@ export class ReportsController {
 
   @Get('minor')
   async findAllMinorExpensesReports(
-    @Body('userId') userId: number,
+    @Query('userId') userId: number,
+    @Query('start') start: Date,
+    @Query('end') end: Date,
+    @Query('status') status: string,
   ): Promise<MinorExpensesReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getMinorExpensesReportByUserId(userId);
+      return await this.reportsService.getMinorExpensesReportByUserId(
+        userId,
+        start,
+        end,
+        status,
+      );
     } else {
       return await this.reportsService.getAllMinorExpensesReports();
     }

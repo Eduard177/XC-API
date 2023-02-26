@@ -10,7 +10,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 import { IMinorExpensesReport } from './interfaces/MinorExpensesReport.interface';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
 
 @Injectable()
@@ -159,23 +159,42 @@ export class ReportsService {
 
   async getRefundableInvoiceReportsByUserId(
     userId: number,
+    startDate: Date,
+    endDate: Date,
+    status: string,
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
     }
+    // @ts-ignore
     return await this.refundableInvoiceReportRepository.find({
-      where: [{ user: { id: userId } }],
+      where: [
+        {
+          user: { id: userId },
+          invoiceDate: Between(startDate, endDate),
+          status,
+        },
+      ],
     });
   }
 
   async getMinorExpensesReportByUserId(
     userId: number,
+    startDate: Date,
+    endDate: Date,
+    status: string,
   ): Promise<MinorExpensesReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
     }
     return await this.minorExpensesReportRepository.find({
-      where: [{ user: { id: userId } }],
+      where: [
+        {
+          user: { id: userId },
+          invoiceDate: Between(startDate, endDate),
+          status,
+        },
+      ],
     });
   }
 
