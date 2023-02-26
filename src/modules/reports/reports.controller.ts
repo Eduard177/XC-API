@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -49,6 +50,16 @@ export class ReportsController {
     );
   }
 
+  @Patch('refundable/:id')
+  updateRefundableInvoiceReport(
+    @Param() id: number,
+    @Body() refundableReport: IRefundableInvoiceReport,
+  ) {
+    return this.reportsService.updateRefundableInvoiceReport(
+      id,
+      refundableReport,
+    );
+  }
   @Delete('refundable/:id')
   async deleteRefundableInvoiceReport(@Param() id: number) {
     return await this.reportsService.deleteRefundableInvoiceReport(id);
@@ -75,6 +86,14 @@ export class ReportsController {
   @Post('minor')
   async createMinorExpensesReport(@Body() minorReport: IMinorExpensesReport) {
     return await this.reportsService.createMinorExpensesReport(minorReport);
+  }
+
+  @Patch('minor/:id')
+  updateMinorExpensesReport(
+    @Param() id: number,
+    @Body() minorReport: IMinorExpensesReport,
+  ) {
+    return this.reportsService.updateMinorExpensesReport(id, minorReport);
   }
 
   @Delete('minor/:id')

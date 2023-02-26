@@ -11,6 +11,7 @@ import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 import { IMinorExpensesReport } from './interfaces/MinorExpensesReport.interface';
 import { Repository } from 'typeorm';
+import { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
 
 @Injectable()
 export class ReportsService {
@@ -73,6 +74,19 @@ export class ReportsService {
     });
   }
 
+  async updateRefundableInvoiceReport(
+    id: number,
+    refundable: IRefundableInvoiceReport,
+  ): Promise<UpdateResult> {
+    const getReport = this.getRefundableInvoiceReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    return this.refundableInvoiceReportRepository.update(id, {
+      ...refundable,
+    });
+  }
+
   async deleteRefundableInvoiceReport(reportId: number): Promise<DeleteResult> {
     try {
       return await this.refundableInvoiceReportRepository.delete(reportId);
@@ -119,6 +133,19 @@ export class ReportsService {
     return await this.minorExpensesReportRepository.save({
       ...payload,
       user,
+    });
+  }
+
+  async updateMinorExpensesReport(
+    id: number,
+    minorReport: IMinorExpensesReport,
+  ): Promise<UpdateResult> {
+    const getReport = this.getMinorExpensesReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    return this.minorExpensesReportRepository.update(id, {
+      ...minorReport,
     });
   }
 
