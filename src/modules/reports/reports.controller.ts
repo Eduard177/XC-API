@@ -1,32 +1,52 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { RefundableInvoiceReportEntity } from './entities/refundableInvoiceReport.entity';
 import { IRefundableInvoiceReport } from './interfaces/RefundableInvoiceReport.interface';
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 import { IMinorExpensesReport } from './interfaces/MinorExpensesReport.interface';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('reports')
 @Controller('reports')
 export class ReportsController {
-
   constructor(private readonly reportsService: ReportsService) {}
 
   @Get('refundable')
-  async findAllRefundableReports(@Body('userId') userId: number): Promise<RefundableInvoiceReportEntity[]> {
+  async findAllRefundableReports(
+    @Body('userId') userId: number,
+  ): Promise<RefundableInvoiceReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getRefundableInvoiceReportsByUserId(userId);
+      return await this.reportsService.getRefundableInvoiceReportsByUserId(
+        userId,
+      );
     } else {
       return await this.reportsService.getAllRefundableInvoiceReports();
     }
   }
 
   @Get('refundable/:id')
-  async findRefundableReportById(@Param() id: number): Promise<RefundableInvoiceReportEntity> {
+  async findRefundableReportById(
+    @Param() id: number,
+  ): Promise<RefundableInvoiceReportEntity> {
     return await this.reportsService.getRefundableInvoiceReportsById(id);
   }
 
   @Post('refundable')
-  async createRefundableInvoiceReport(@Body() refundableReport: IRefundableInvoiceReport) {
-    return await this.reportsService.createRefundableInvoiceReport(refundableReport);
+  async createRefundableInvoiceReport(
+    @Body() refundableReport: IRefundableInvoiceReport,
+  ) {
+    return await this.reportsService.createRefundableInvoiceReport(
+      refundableReport,
+    );
   }
 
   @Delete('refundable/:id')
@@ -35,7 +55,9 @@ export class ReportsController {
   }
 
   @Get('minor')
-  async findAllMinorExpensesReports(@Body('userId') userId: number): Promise<MinorExpensesReportEntity[]> {
+  async findAllMinorExpensesReports(
+    @Body('userId') userId: number,
+  ): Promise<MinorExpensesReportEntity[]> {
     if (userId) {
       return await this.reportsService.getMinorExpensesReportByUserId(userId);
     } else {
@@ -44,7 +66,9 @@ export class ReportsController {
   }
 
   @Get('minor/:id')
-  async findMinorExpensesReportById(@Param() id: number): Promise<MinorExpensesReportEntity> {
+  async findMinorExpensesReportById(
+    @Param() id: number,
+  ): Promise<MinorExpensesReportEntity> {
     return await this.reportsService.getMinorExpensesReportsById(id);
   }
 

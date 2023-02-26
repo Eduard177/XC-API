@@ -4,13 +4,13 @@ import { AuthService } from './auth.service';
 import { IUserRegister } from './interfaces/user-register.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { AdminGuard } from './guards/admin.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiBearerAuth()
+@ApiTags('auth')
 export class AuthController {
-
-  constructor(
-    private readonly authService: AuthService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/login')
   async userLogin(@Body() payload: IUserLogin) {

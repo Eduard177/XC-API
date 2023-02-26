@@ -1,13 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { UserService } from './user.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('user')
 @Controller('user')
 export class UserController {
-
-  constructor(
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   async findAllUsers(): Promise<UserEntity[]> {
