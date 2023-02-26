@@ -9,8 +9,10 @@ require('dotenv').config();
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-
-  constructor(private readonly configService: ConfigService, private authService: AuthService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private authService: AuthService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
@@ -25,6 +27,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('INVALID_TOKEN');
     }
 
-    return user ;
+    return user;
   }
 }

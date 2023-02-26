@@ -5,7 +5,7 @@ import { UserRepository } from './repositories/user.repository';
 import { UserEntity } from './entities/user.entity';
 
 describe('User Controller', () => {
-  let service: UserService ;
+  let service: UserService;
   let controller: UserController;
 
   beforeEach(async () => {
@@ -17,8 +17,8 @@ describe('User Controller', () => {
           useFactory: () => ({
             find: jest.fn(() => []),
             findOne: jest.fn(() => new UserEntity()),
-            save: jest.fn(() => true ),
-            remove: jest.fn( () => true),
+            save: jest.fn(() => true),
+            remove: jest.fn(() => true),
           }),
         },
       ],
@@ -27,7 +27,6 @@ describe('User Controller', () => {
 
     service = module.get(UserService);
     controller = module.get<UserController>(UserController);
-
   });
 
   it('should be defined', () => {
@@ -38,7 +37,7 @@ describe('User Controller', () => {
     it('should return an empty array', async () => {
       const users = await controller.findAllUsers();
       expect(users.length).toBe(0);
-    } );
+    });
   });
 
   describe('getUserByID', () => {

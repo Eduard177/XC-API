@@ -18,7 +18,7 @@ export const databaseProviders = [
         port: parseInt(config.get(Configuration.DB_PORT)),
         database: config.get(Configuration.DB_NAME),
         password: config.get(Configuration.DB_PASSWORD),
-        synchronize:true,
+        synchronize: true,
         entities: [__dirname + '/../**/*/*.entity{.ts,.js}'],
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
         extra: {

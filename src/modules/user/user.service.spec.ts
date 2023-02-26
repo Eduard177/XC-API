@@ -4,21 +4,21 @@ import { UserEntity } from './entities/user.entity';
 import { UserRepository } from './repositories/user.repository';
 
 describe('UserService', () => {
-  let service: UserService ;
+  let service: UserService;
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-     providers: [
-       UserService,
-     {
-       provide: UserRepository,
-       useFactory: () => ({
-         find: jest.fn(() => []),
-         findOne: jest.fn(() => new UserEntity()),
-         save: jest.fn(() => true ),
-         remove: jest.fn( () => true),
-       }),
-     },
-     ],
+      providers: [
+        UserService,
+        {
+          provide: UserRepository,
+          useFactory: () => ({
+            find: jest.fn(() => []),
+            findOne: jest.fn(() => new UserEntity()),
+            save: jest.fn(() => true),
+            remove: jest.fn(() => true),
+          }),
+        },
+      ],
     }).compile();
 
     service = module.get(UserService);
@@ -32,7 +32,7 @@ describe('UserService', () => {
     it('should return an empty array', async () => {
       const users = await service.getAll();
       expect(users.length).toBe(0);
-    } );
+    });
   });
 
   describe('get', () => {

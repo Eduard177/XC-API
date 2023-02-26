@@ -6,7 +6,12 @@ import { RefundableInvoiceReportEntity } from './entities/refundableInvoiceRepor
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RefundableInvoiceReportEntity, MinorExpensesReportEntity])],
+  imports: [
+    TypeOrmModule.forFeature([
+      RefundableInvoiceReportEntity,
+      MinorExpensesReportEntity,
+    ]),
+  ],
   controllers: [ReportsController],
   providers: [ReportsService],
   exports: [ReportsService],

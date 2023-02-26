@@ -58,8 +58,8 @@ describe('Auth Controller', () => {
         {
           provide: UserService,
           useFactory: () => ({
-            findOneByEmail: jest.fn(() => user ),
-            create: jest.fn(() => user ),
+            findOneByEmail: jest.fn(() => user),
+            create: jest.fn(() => user),
           }),
         },
       ],

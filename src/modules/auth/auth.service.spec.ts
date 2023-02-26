@@ -56,8 +56,8 @@ describe('AuthService', () => {
         {
           provide: UserService,
           useFactory: () => ({
-            findOneByEmail: jest.fn(() => user ),
-            create: jest.fn(() => user ),
+            findOneByEmail: jest.fn(() => user),
+            create: jest.fn(() => user),
           }),
         },
       ],
@@ -81,18 +81,18 @@ describe('AuthService', () => {
   });
 
   it('userRegister', () => {
-      const payload: IUserRegister = {
-        cellphone: '',
-        companyCode: '',
-        email: '',
-        fullName: '',
-        imageUrl: '',
-        office: '',
-        password: 'string',
-        position: '',
-        role: '',
-      };
-      expect(service.userRegister(payload)).not.toBeNull();
+    const payload: IUserRegister = {
+      cellphone: '',
+      companyCode: '',
+      email: '',
+      fullName: '',
+      imageUrl: '',
+      office: '',
+      password: 'string',
+      position: '',
+      role: '',
+    };
+    expect(service.userRegister(payload)).not.toBeNull();
   });
 
   it('hashPassword', () => {

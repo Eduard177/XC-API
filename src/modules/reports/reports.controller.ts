@@ -5,7 +5,7 @@ import {
   Get,
   Param,
   Post,
-  Put,
+  Query,
 } from '@nestjs/common';
 import { ReportsService } from './reports.service';
 import { RefundableInvoiceReportEntity } from './entities/refundableInvoiceReport.entity';
@@ -80,5 +80,10 @@ export class ReportsController {
   @Delete('minor/:id')
   async deleteMinorExpensesReport(@Param() id: number) {
     return await this.reportsService.deleteMinorExpensesReport(id);
+  }
+
+  @Get('count')
+  async getReportCount(@Query() payload: any): Promise<object> {
+    return await this.reportsService.getReportCount(payload.UserId);
   }
 }
