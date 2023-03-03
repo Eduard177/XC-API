@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -21,15 +22,17 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Get('refundable')
-  async findAllRefundableReports(
-    @Body('userId') userId: number,
+  findAllRefundableReports(
+    @Query('userId') userId: number,
+    @Query() payload: any,
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getRefundableInvoiceReportsByUserId(
+      return this.reportsService.getRefundableInvoiceReportsByUserId(
         userId,
+        payload,
       );
     } else {
-      return await this.reportsService.getAllRefundableInvoiceReports();
+      return this.reportsService.getAllRefundableInvoiceReportsByDate(payload);
     }
   }
 
@@ -49,19 +52,33 @@ export class ReportsController {
     );
   }
 
+  @Patch('refundable/:id')
+  updateRefundableInvoiceReport(
+    @Param() id: number,
+    @Body() refundableReport: IRefundableInvoiceReport,
+  ) {
+    return this.reportsService.updateRefundableInvoiceReport(
+      id,
+      refundableReport,
+    );
+  }
   @Delete('refundable/:id')
   async deleteRefundableInvoiceReport(@Param() id: number) {
     return await this.reportsService.deleteRefundableInvoiceReport(id);
   }
 
   @Get('minor')
-  async findAllMinorExpensesReports(
-    @Body('userId') userId: number,
+  findAllMinorExpensesReports(
+    @Query('userId') userId: number,
+    @Query() payload: any,
   ): Promise<MinorExpensesReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getMinorExpensesReportByUserId(userId);
+      return this.reportsService.getMinorExpensesReportByUserId(
+        userId,
+        payload,
+      );
     } else {
-      return await this.reportsService.getAllMinorExpensesReports();
+      return this.reportsService.getAllMinorExpensesReportsByDate(payload);
     }
   }
 
@@ -77,6 +94,14 @@ export class ReportsController {
     return await this.reportsService.createMinorExpensesReport(minorReport);
   }
 
+  @Patch('minor/:id')
+  updateMinorExpensesReport(
+    @Param() id: number,
+    @Body() minorReport: IMinorExpensesReport,
+  ) {
+    return this.reportsService.updateMinorExpensesReport(id, minorReport);
+  }
+
   @Delete('minor/:id')
   async deleteMinorExpensesReport(@Param() id: number) {
     return await this.reportsService.deleteMinorExpensesReport(id);
@@ -84,6 +109,6 @@ export class ReportsController {
 
   @Get('count')
   async getReportCount(@Query() payload: any): Promise<object> {
-    return await this.reportsService.getReportCount(payload.UserId);
+    return await this.reportsService.getReportCount(payload.userId);
   }
 }

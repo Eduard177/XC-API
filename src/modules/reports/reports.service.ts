@@ -10,7 +10,8 @@ import { UserEntity } from '../user/entities/user.entity';
 import { DeleteResult } from 'typeorm/query-builder/result/DeleteResult';
 import { MinorExpensesReportEntity } from './entities/minorExpensesReport.entity';
 import { IMinorExpensesReport } from './interfaces/MinorExpensesReport.interface';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
+import { UpdateResult } from 'typeorm/query-builder/result/UpdateResult';
 
 @Injectable()
 export class ReportsService {
@@ -30,6 +31,25 @@ export class ReportsService {
       return reports;
     } catch (e) {
       throw e;
+    }
+  }
+
+  async getAllRefundableInvoiceReportsByDate(payload: {
+    status: any;
+    start: any;
+    end: any;
+  }): Promise<RefundableInvoiceReportEntity[]> {
+    try {
+      let reports: RefundableInvoiceReportEntity[];
+      reports = await this.refundableInvoiceReportRepository.find({
+        where: {
+          status: payload.status,
+          invoiceDate: Between(payload.start, payload.end),
+        },
+      });
+      return reports;
+    } catch (e) {
+      throw new BadRequestException('SERVER ERROR');
     }
   }
 
@@ -73,6 +93,19 @@ export class ReportsService {
     });
   }
 
+  async updateRefundableInvoiceReport(
+    id: number,
+    refundable: IRefundableInvoiceReport,
+  ): Promise<UpdateResult> {
+    const getReport = this.getRefundableInvoiceReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    return this.refundableInvoiceReportRepository.update(id, {
+      ...refundable,
+    });
+  }
+
   async deleteRefundableInvoiceReport(reportId: number): Promise<DeleteResult> {
     try {
       return await this.refundableInvoiceReportRepository.delete(reportId);
@@ -86,6 +119,25 @@ export class ReportsService {
       return await this.minorExpensesReportRepository.find();
     } catch (e) {
       throw e;
+    }
+  }
+
+  async getAllMinorExpensesReportsByDate(payload: {
+    status: any;
+    start: any;
+    end: any;
+  }): Promise<MinorExpensesReportEntity[]> {
+    try {
+      let reports: MinorExpensesReportEntity[];
+      reports = await this.minorExpensesReportRepository.find({
+        where: {
+          status: payload.status,
+          invoiceDate: Between(payload.start, payload.end),
+        },
+      });
+      return reports;
+    } catch (e) {
+      throw new BadRequestException('SERVER ERROR');
     }
   }
 
@@ -122,6 +174,19 @@ export class ReportsService {
     });
   }
 
+  async updateMinorExpensesReport(
+    id: number,
+    minorReport: IMinorExpensesReport,
+  ): Promise<UpdateResult> {
+    const getReport = this.getMinorExpensesReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    return this.minorExpensesReportRepository.update(id, {
+      ...minorReport,
+    });
+  }
+
   async deleteMinorExpensesReport(reportId: number): Promise<DeleteResult> {
     try {
       return await this.minorExpensesReportRepository.delete(reportId);
@@ -132,23 +197,46 @@ export class ReportsService {
 
   async getRefundableInvoiceReportsByUserId(
     userId: number,
+    payload: {
+      start: Date;
+      end: Date;
+      status: string;
+    },
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
     }
+    // @ts-ignore
     return await this.refundableInvoiceReportRepository.find({
-      where: [{ user: { id: userId } }],
+      where: [
+        {
+          user: { id: userId },
+          invoiceDate: Between(payload.start, payload.end),
+          status: payload.status,
+        },
+      ],
     });
   }
 
   async getMinorExpensesReportByUserId(
     userId: number,
+    payload: {
+      start: Date;
+      end: Date;
+      status: string;
+    },
   ): Promise<MinorExpensesReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
     }
     return await this.minorExpensesReportRepository.find({
-      where: [{ user: { id: userId } }],
+      where: [
+        {
+          user: { id: userId },
+          invoiceDate: Between(payload.start, payload.end),
+          status: payload.status,
+        },
+      ],
     });
   }
 

@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { ConfigService } from './modules/config/config.service';
 import { Configuration } from './modules/config/config.keys';
+import { ExcelModule } from './modules/excel/excel.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { Configuration } from './modules/config/config.keys';
     DatabaseModule,
     AuthModule,
     ReportsModule,
+    ExcelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
