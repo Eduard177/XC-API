@@ -34,6 +34,25 @@ export class ReportsService {
     }
   }
 
+  async getAllRefundableInvoiceReportsByDate(payload: {
+    status: any;
+    start: any;
+    end: any;
+  }): Promise<RefundableInvoiceReportEntity[]> {
+    try {
+      let reports: RefundableInvoiceReportEntity[];
+      reports = await this.refundableInvoiceReportRepository.find({
+        where: {
+          status: payload.status,
+          invoiceDate: Between(payload.start, payload.end),
+        },
+      });
+      return reports;
+    } catch (e) {
+      throw new BadRequestException('SERVER ERROR');
+    }
+  }
+
   async getRefundableInvoiceReportsById(
     id: number,
   ): Promise<RefundableInvoiceReportEntity> {
@@ -103,6 +122,25 @@ export class ReportsService {
     }
   }
 
+  async getAllMinorExpensesReportsByDate(payload: {
+    status: any;
+    start: any;
+    end: any;
+  }): Promise<MinorExpensesReportEntity[]> {
+    try {
+      let reports: MinorExpensesReportEntity[];
+      reports = await this.minorExpensesReportRepository.find({
+        where: {
+          status: payload.status,
+          invoiceDate: Between(payload.start, payload.end),
+        },
+      });
+      return reports;
+    } catch (e) {
+      throw new BadRequestException('SERVER ERROR');
+    }
+  }
+
   async getMinorExpensesReportsById(
     id: number,
   ): Promise<MinorExpensesReportEntity> {
@@ -159,9 +197,11 @@ export class ReportsService {
 
   async getRefundableInvoiceReportsByUserId(
     userId: number,
-    startDate: Date,
-    endDate: Date,
-    status: string,
+    payload: {
+      start: Date;
+      end: Date;
+      status: string;
+    },
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
@@ -171,8 +211,8 @@ export class ReportsService {
       where: [
         {
           user: { id: userId },
-          invoiceDate: Between(startDate, endDate),
-          status,
+          invoiceDate: Between(payload.start, payload.end),
+          status: payload.status,
         },
       ],
     });
@@ -180,9 +220,11 @@ export class ReportsService {
 
   async getMinorExpensesReportByUserId(
     userId: number,
-    startDate: Date,
-    endDate: Date,
-    status: string,
+    payload: {
+      start: Date;
+      end: Date;
+      status: string;
+    },
   ): Promise<MinorExpensesReportEntity[]> {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
@@ -191,8 +233,8 @@ export class ReportsService {
       where: [
         {
           user: { id: userId },
-          invoiceDate: Between(startDate, endDate),
-          status,
+          invoiceDate: Between(payload.start, payload.end),
+          status: payload.status,
         },
       ],
     });

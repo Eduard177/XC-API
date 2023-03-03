@@ -22,21 +22,17 @@ export class ReportsController {
   constructor(private readonly reportsService: ReportsService) {}
 
   @Get('refundable')
-  async findAllRefundableReports(
+  findAllRefundableReports(
     @Query('userId') userId: number,
-    @Query('start') start: Date,
-    @Query('end') end: Date,
-    @Query('status') status: string,
+    @Query() payload: any,
   ): Promise<RefundableInvoiceReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getRefundableInvoiceReportsByUserId(
+      return this.reportsService.getRefundableInvoiceReportsByUserId(
         userId,
-        start,
-        end,
-        status,
+        payload,
       );
     } else {
-      return await this.reportsService.getAllRefundableInvoiceReports();
+      return this.reportsService.getAllRefundableInvoiceReportsByDate(payload);
     }
   }
 
@@ -72,21 +68,17 @@ export class ReportsController {
   }
 
   @Get('minor')
-  async findAllMinorExpensesReports(
+  findAllMinorExpensesReports(
     @Query('userId') userId: number,
-    @Query('start') start: Date,
-    @Query('end') end: Date,
-    @Query('status') status: string,
+    @Query() payload: any,
   ): Promise<MinorExpensesReportEntity[]> {
     if (userId) {
-      return await this.reportsService.getMinorExpensesReportByUserId(
+      return this.reportsService.getMinorExpensesReportByUserId(
         userId,
-        start,
-        end,
-        status,
+        payload,
       );
     } else {
-      return await this.reportsService.getAllMinorExpensesReports();
+      return this.reportsService.getAllMinorExpensesReportsByDate(payload);
     }
   }
 
