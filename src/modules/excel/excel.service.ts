@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as path from 'path';
 import { Workbook } from 'exceljs';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
@@ -24,7 +23,9 @@ export class ExcelService {
 
     await this.generateExcelAllReemborsables(payload, file, user);
     await this.generateExcelAllMinorExpenses(payload, file, user);
-    return file.xlsx.writeBuffer({ useStyles: true });
+    return await workbook.xlsx.writeBuffer({
+      useStyles: true,
+    });
   }
   async generateExcelAllReemborsables(
     payload: {
@@ -107,7 +108,7 @@ export class ExcelService {
     }
   }
 
-  downloadExcel(
+  async downloadExcel(
     payload: { status: any; start: any; end: any },
     userId: number,
   ): Promise<any> {
