@@ -96,10 +96,25 @@ export class ReportsController {
 
   @Patch('minor/:id')
   updateMinorExpensesReport(
-    @Param() id: number,
-    @Body() minorReport: IMinorExpensesReport,
+    @Param() id: any,
+    @Body() minorReport: any,
   ) {
-    return this.reportsService.updateMinorExpensesReport(id, minorReport);
+    return this.reportsService.updateMinorExpensesReport(id.id, minorReport);
+  }
+  @Patch('minor/status/:id')
+  async patchMinorExpensesReport(
+    @Param() id: any,
+    @Body() payload: any
+  ) {
+    return this.reportsService.patchMinorExpenseReport(id.id, payload.status);
+  }
+
+  @Patch('refundable/status/:id')
+  async patchRefundableExpensesReport(
+    @Param() id: any,
+    @Body() payload: any
+  ) {
+    return this.reportsService.patchRefundableExpenseReport(id.id, payload.status);
   }
 
   @Delete('minor/:id')

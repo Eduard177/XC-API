@@ -3,10 +3,10 @@ import { DataSource } from 'typeorm';
 const dataSource = new DataSource({
   type: 'postgres',
   username: 'xpert_user',
-  password: 'sYExGntfLOLps6mafc0Q0R79zPV2ahDO',
-  host: 'dpg-cfqknl5a4991c2coubb0-a.oregon-postgres.render.com',
+  password: '1oORMSSQgTZzGLVHvgczcEAEOd4Ql3Bc',
+  host: 'dpg-chvqasj3cv26tfm0ldh0-a.oregon-postgres.render.com',
   port: 5432,
-  database: 'xpert',
+  database: 'xpert_qb25',
   entities: ['./src/**/**/*.entity{.ts,.js}'],
   migrations: ['./src/database/migrations/*{.ts,.js}'],
   ssl:true

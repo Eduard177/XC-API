@@ -176,15 +176,33 @@ export class ReportsService {
 
   async updateMinorExpensesReport(
     id: number,
-    minorReport: IMinorExpensesReport,
+    minorReport: any,
   ): Promise<UpdateResult> {
-    const getReport = this.getMinorExpensesReportsById(id);
+    const getReport = await this.getMinorExpensesReportsById(id);
     if (!getReport) {
       throw new NotFoundException('Report dont exist');
     }
-    return this.minorExpensesReportRepository.update(id, {
+    return this.minorExpensesReportRepository.save({
+      id,
       ...minorReport,
     });
+  }
+
+  async patchRefundableExpenseReport(id:any,status:any) {
+    const getReport = await this.getRefundableInvoiceReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    getReport.status= status
+    return await getReport.save()
+  }
+  async patchMinorExpenseReport(id:any,status:any) {
+    const getReport = await this.getMinorExpensesReportsById(id);
+    if (!getReport) {
+      throw new NotFoundException('Report dont exist');
+    }
+    getReport.status= status
+    return await getReport.save()
   }
 
   async deleteMinorExpensesReport(reportId: number): Promise<DeleteResult> {
