@@ -1,17 +1,19 @@
 import { DataSource } from 'typeorm';
+import { Configuration } from './src/modules/config/config.keys';
+import { ConfigService } from './src/modules/config/config.service';
 
+const configService = new ConfigService();
 const dataSource = new DataSource({
   type: 'postgres',
-  username: 'xpert_user',
-  password: '1oORMSSQgTZzGLVHvgczcEAEOd4Ql3Bc',
-  host: 'dpg-chvqasj3cv26tfm0ldh0-a.oregon-postgres.render.com',
+  username: configService.get(Configuration.DB_USER),
+  password: configService.get(Configuration.DB_PASSWORD),
+  host: configService.get(Configuration.DB_HOST),
   port: 5432,
-  database: 'xpert_qb25',
+  database: configService.get(Configuration.DB_NAME),
   entities: ['./src/**/**/*.entity{.ts,.js}'],
   migrations: ['./src/database/migrations/*{.ts,.js}'],
-  ssl:true
+  ssl: true,
 });
- dataSource.initialize()
+dataSource.initialize();
 
-export default dataSource
-
+export default dataSource;
