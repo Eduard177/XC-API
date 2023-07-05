@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import { parse } from 'dotenv';
 import { join } from 'path';
-
 export class ConfigService {
   private readonly envConfig: { [key: string]: string };
   constructor() {
@@ -24,6 +23,8 @@ export class ConfigService {
         DB_HOST: process.env.DB_HOST,
         DB_PORT: process.env.DB_PORT,
         DB_NAME: process.env.DB_NAME,
+        SECRET_KEY_JWT: process.env.SECRET_KEY_JWT,
+        TOKEN_EXPIRATION_TIME: process.env.TOKEN_EXPIRATION_TIME
       };
     }
   }

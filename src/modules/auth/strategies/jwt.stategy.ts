@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { PassportStrategy } from '@nestjs/passport';
 import { ConfigService } from '../../config/config.service';
 import { IJwtPayload } from '../interfaces/jwt-payload.interface';
+import {Configuration} from '../../config/config.keys';
 // tslint:disable-next-line:no-var-requires
 require('dotenv').config();
 
@@ -16,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: true,
-      secretOrKey: process.env.SECRET_KEY_JWT,
+      secretOrKey: configService.get(Configuration.SECRET_KEY_JWT),
     });
   }
 
