@@ -46,6 +46,7 @@ export class ReportsService {
           status: payload.status,
           invoiceDate: Between(payload.start, payload.end),
         },
+        relations: ['user'],
       });
       return reports;
     } catch (e) {
@@ -67,6 +68,7 @@ export class ReportsService {
           where: {
             id,
           },
+          relations: ['user'],
         });
 
       if (!refundableInvoiceReport) {
@@ -114,14 +116,6 @@ export class ReportsService {
     }
   }
 
-  async getAllMinorExpensesReports(): Promise<MinorExpensesReportEntity[]> {
-    try {
-      return await this.minorExpensesReportRepository.find();
-    } catch (e) {
-      throw e;
-    }
-  }
-
   async getAllMinorExpensesReportsByDate(payload: {
     status: any;
     start: any;
@@ -134,6 +128,7 @@ export class ReportsService {
           status: payload.status,
           invoiceDate: Between(payload.start, payload.end),
         },
+        relations: ['user'],
       });
       return reports;
     } catch (e) {
@@ -152,6 +147,7 @@ export class ReportsService {
       where: {
         id,
       },
+      relations: ['user'],
     });
 
     if (!minorReport) {
@@ -188,21 +184,21 @@ export class ReportsService {
     });
   }
 
-  async patchRefundableExpenseReport(id:any,status:any) {
+  async patchRefundableExpenseReport(id: any, status: any) {
     const getReport = await this.getRefundableInvoiceReportsById(id);
     if (!getReport) {
       throw new NotFoundException('Report dont exist');
     }
-    getReport.status= status
-    return await getReport.save()
+    getReport.status = status;
+    return await getReport.save();
   }
-  async patchMinorExpenseReport(id:any,status:any) {
+  async patchMinorExpenseReport(id: any, status: any) {
     const getReport = await this.getMinorExpensesReportsById(id);
     if (!getReport) {
       throw new NotFoundException('Report dont exist');
     }
-    getReport.status= status
-    return await getReport.save()
+    getReport.status = status;
+    return await getReport.save();
   }
 
   async deleteMinorExpensesReport(reportId: number): Promise<DeleteResult> {
