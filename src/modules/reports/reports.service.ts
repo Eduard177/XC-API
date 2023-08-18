@@ -220,7 +220,6 @@ export class ReportsService {
     if (!userId) {
       throw new BadRequestException('AN ID MUST BE SENT');
     }
-    // @ts-ignore
     return await this.refundableInvoiceReportRepository.find({
       where: [
         {
@@ -253,19 +252,29 @@ export class ReportsService {
       ],
     });
   }
-
+  calculateReportCounts = (reports: any[], status: string): number  => {
+    return reports.filter(report => report.status === status).length;
+  }
   async getReportCount(userId): Promise<object> {
-    const minorExpensesReports = await this.minorExpensesReportRepository.count(
+    const minorExpensesReports = await this.minorExpensesReportRepository.find(
       { where: { user: { id: userId } } },
     );
     const refundableReports =
-      await this.refundableInvoiceReportRepository.count({
+      await this.refundableInvoiceReportRepository.find({
         where: { user: { id: userId } },
       });
+
+     const PENDING: string = 'Pendiente'
+     const APPROVE: string = 'Aprobado';
+
+     const allReports = [];
+     const pendingReportCount = this.calculateReportCounts(allReports.concat(minorExpensesReports, refundableReports), PENDING);
+     const approvedReportCount = this.calculateReportCounts(allReports.concat(minorExpensesReports, refundableReports), APPROVE)
+
     return {
-      pending: 0,
-      approved: 0,
-      total: minorExpensesReports + refundableReports,
+      pending: pendingReportCount,
+      approved: approvedReportCount,
+      total: minorExpensesReports.length + refundableReports.length,
     };
   }
 }
